@@ -1,40 +1,46 @@
-# Welcome to Remix!
+# OmniCI Marketing Website (Remix + Tailwind)
 
-- 📖 [Remix docs](https://remix.run/docs)
+A Remix-based single-page marketing site for an enterprise CI/CD platform following the "Ocean Professional" style (blue primary, amber accents, modern, clean, rounded corners, gradients, sticky nav, responsive).
 
-## Development
+## Quick start
 
-Run the dev server:
+- Install dependencies: `npm install`
+- Run development server: `npm run dev`
+- Build: `npm run build`
+- Start production server: `npm start`
 
-```shellscript
-npm run dev
-```
+## Structure
 
-## Deployment
+- `app/routes/_index.tsx` — Single-page layout with sections:
+  - Hero
+  - Features
+  - Integrations
+  - Case Studies
+  - Testimonials
+  - Pricing
+  - Calls to Action
+  - Contact
+  - Footer
 
-First, build your app for production:
+- `app/tailwind.css` — Theme tokens and component utilities for Ocean Professional
+- `tailwind.config.ts` — Tailwind configuration and theme extensions
+- `app/root.tsx` — Global layout, fonts, meta, and favicon
 
-```sh
-npm run build
-```
+## Editing content
 
-Then run the app in production mode:
+Replace placeholder text and blocks in `app/routes/_index.tsx`:
+- Hero mockups and badges
+- Feature cards copy
+- Integration logos
+- Case studies
+- Testimonials
+- Pricing details
+- Contact form endpoint (currently prevents default submission)
 
-```sh
-npm start
-```
+To change theme colors, adjust CSS variables in `app/tailwind.css` or `tailwind.config.ts`.
 
-Now you'll need to pick a host to deploy it to.
+## Notes
 
-### DIY
-
-If you're familiar with deploying Node applications, the built-in Remix app server is production-ready.
-
-Make sure to deploy the output of `npm run build`
-
-- `build/server`
-- `build/client`
-
-## Styling
-
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever css framework you prefer. See the [Vite docs on css](https://vitejs.dev/guide/features.html#css) for more information.
+- The contact form is a placeholder. Wire up to your forms provider or backend.
+- Placeholder assets are simple blocks; replace with brand images as needed.
+- SEO meta tags can be updated in the route `meta` export.

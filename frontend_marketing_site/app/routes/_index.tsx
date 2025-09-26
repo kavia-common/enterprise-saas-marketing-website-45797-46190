@@ -1,138 +1,709 @@
 import type { MetaFunction } from "@remix-run/node";
+import { useEffect, useState } from "react";
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "New Remix App" },
-    { name: "description", content: "Welcome to Remix!" },
+    { title: "OmniCI | Enterprise CI/CD Platform" },
+    {
+      name: "description",
+      content:
+        "A modern enterprise CI/CD platform. Automate, integrate, and ship faster with secure pipelines, scalable workflows, and deep ecosystem integrations.",
+    },
   ];
 };
 
-export default function Index() {
+function NavLink({
+  href,
+  label,
+}: {
+  href: string;
+  label: string;
+}) {
   return (
-    <div className="flex h-screen items-center justify-center">
-      <div className="flex flex-col items-center gap-16">
-        <header className="flex flex-col items-center gap-9">
-          <h1 className="leading text-2xl font-bold text-gray-800 dark:text-gray-100">
-            Welcome to <span className="sr-only">Remix</span>
-          </h1>
-          <div className="h-[144px] w-[434px]">
-            <img
-              src="/logo-light.png"
-              alt="Remix"
-              className="block w-full dark:hidden"
-            />
-            <img
-              src="/logo-dark.png"
-              alt="Remix"
-              className="hidden w-full dark:block"
-            />
-          </div>
-        </header>
-        <nav className="flex flex-col items-center justify-center gap-4 rounded-3xl border border-gray-200 p-6 dark:border-gray-700">
-          <p className="leading-6 text-gray-700 dark:text-gray-200">
-            What&apos;s next?
-          </p>
-          <ul>
-            {resources.map(({ href, text, icon }) => (
-              <li key={href}>
-                <a
-                  className="group flex items-center gap-3 self-stretch p-3 leading-normal text-blue-700 hover:underline dark:text-blue-500"
-                  href={href}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {icon}
-                  {text}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      </div>
+    <a
+      href={href}
+      className="text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors"
+    >
+      {label}
+    </a>
+  );
+}
+
+function Stat({ value, label }: { value: string; label: string }) {
+  return (
+    <div className="text-center">
+      <div className="text-2xl font-bold text-gray-900">{value}</div>
+      <div className="text-xs text-gray-500">{label}</div>
     </div>
   );
 }
 
-const resources = [
-  {
-    href: "https://remix.run/start/quickstart",
-    text: "Quick Start (5 min)",
-    icon: (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="20"
-        viewBox="0 0 20 20"
-        fill="none"
-        className="stroke-gray-600 group-hover:stroke-current dark:stroke-gray-300"
+export default function Index() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const onHash = () => setIsMenuOpen(false);
+    window.addEventListener("hashchange", onHash);
+    return () => window.removeEventListener("hashchange", onHash);
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-[#f9fafb] text-[#111827]">
+      {/* Sticky Navigation */}
+      <header className="sticky top-0 z-50 backdrop-blur supports-[backdrop-filter]:bg-white/70 bg-white/90 border-b border-gray-100">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="flex h-16 items-center justify-between">
+            <a href="#hero" className="flex items-center gap-2">
+              <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-bold shadow-sm">
+                O
+              </div>
+              <span className="font-semibold text-gray-900">OmniCI</span>
+            </a>
+
+            <nav className="hidden md:flex items-center gap-8">
+              <NavLink href="#features" label="Features" />
+              <NavLink href="#pricing" label="Pricing" />
+              <NavLink href="#integrations" label="Integrations" />
+              <NavLink href="#case-studies" label="Case Studies" />
+              <NavLink href="#testimonials" label="Testimonials" />
+              <NavLink href="#contact" label="Contact" />
+            </nav>
+
+            <div className="hidden md:flex items-center gap-3">
+              <a
+                href="#contact"
+                className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-blue-600"
+              >
+                Talk to sales
+              </a>
+              <a
+                href="#cta"
+                className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 transition-colors"
+              >
+                Get started
+              </a>
+            </div>
+
+            <button
+              className="md:hidden inline-flex items-center justify-center h-10 w-10 rounded-md hover:bg-gray-50"
+              aria-label="Toggle menu"
+              onClick={() => setIsMenuOpen((v) => !v)}
+            >
+              <svg
+                className="h-5 w-5 text-gray-700"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                {isMenuOpen ? (
+                  <path
+                    d="M6 18L18 6M6 6l12 12"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                  />
+                ) : (
+                  <path
+                    d="M4 6h16M4 12h16M4 18h16"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                  />
+                )}
+              </svg>
+            </button>
+          </div>
+        </div>
+        {isMenuOpen && (
+          <div className="md:hidden border-t border-gray-100 bg-white">
+            <div className="mx-auto max-w-7xl px-4 py-4 flex flex-col gap-3">
+              <NavLink href="#features" label="Features" />
+              <NavLink href="#pricing" label="Pricing" />
+              <NavLink href="#integrations" label="Integrations" />
+              <NavLink href="#case-studies" label="Case Studies" />
+              <NavLink href="#testimonials" label="Testimonials" />
+              <NavLink href="#contact" label="Contact" />
+              <div className="pt-2 flex items-center gap-3">
+                <a
+                  href="#contact"
+                  className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-blue-600"
+                >
+                  Talk to sales
+                </a>
+                <a
+                  href="#cta"
+                  className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 transition-colors"
+                >
+                  Get started
+                </a>
+              </div>
+            </div>
+          </div>
+        )}
+      </header>
+
+      {/* Hero */}
+      <section
+        id="hero"
+        className="relative overflow-hidden bg-gradient-to-b from-blue-500/10 to-gray-50"
       >
-        <path
-          d="M8.51851 12.0741L7.92592 18L15.6296 9.7037L11.4815 7.33333L12.0741 2L4.37036 10.2963L8.51851 12.0741Z"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    ),
-  },
-  {
-    href: "https://remix.run/start/tutorial",
-    text: "Tutorial (30 min)",
-    icon: (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="20"
-        viewBox="0 0 20 20"
-        fill="none"
-        className="stroke-gray-600 group-hover:stroke-current dark:stroke-gray-300"
+        <div className="absolute -top-24 -right-24 h-72 w-72 rounded-full bg-blue-500/10 blur-3xl" />
+        <div className="absolute -bottom-16 -left-24 h-72 w-72 rounded-full bg-amber-400/10 blur-3xl" />
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20 sm:py-28">
+          <div className="grid md:grid-cols-2 gap-10 items-center">
+            <div>
+              <span className="inline-flex items-center gap-2 rounded-full bg-white shadow-sm px-3 py-1 text-xs font-semibold text-blue-700 ring-1 ring-blue-100">
+                <span className="block h-2 w-2 rounded-full bg-amber-500" />
+                Enterprise CI/CD
+              </span>
+              <h1 className="mt-5 text-4xl sm:text-5xl font-extrabold tracking-tight text-gray-900">
+                Ship with confidence. Automate every step.
+              </h1>
+              <p className="mt-4 text-gray-600 leading-relaxed">
+                OmniCI is a secure, scalable CI/CD platform for modern
+                engineering teams. Build, test, and deploy at enterprise scale
+                with policy controls, insights, and an ecosystem of integrations.
+              </p>
+              <div className="mt-8 flex flex-wrap items-center gap-3">
+                <a
+                  href="#cta"
+                  className="rounded-lg bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 transition-colors"
+                >
+                  Start free trial
+                </a>
+                <a
+                  href="#features"
+                  className="rounded-lg bg-white px-5 py-3 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-gray-200 hover:bg-gray-50 transition-colors"
+                >
+                  View features
+                </a>
+              </div>
+              <div className="mt-8 grid grid-cols-3 gap-6">
+                <Stat value="99.99%" label="Uptime" />
+                <Stat value="10k+" label="Teams" />
+                <Stat value="30%+" label="Faster releases" />
+              </div>
+            </div>
+            <div className="relative">
+              <div className="absolute inset-0 -m-8 bg-gradient-to-br from-blue-500/10 to-amber-400/10 blur-2xl rounded-3xl" />
+              <div className="relative rounded-2xl bg-white shadow-xl ring-1 ring-gray-100 p-4">
+                <div className="aspect-video w-full rounded-lg bg-gray-50 grid place-items-center text-gray-400 text-sm">
+                  Placeholder: Product mockup / hero image
+                </div>
+                <div className="mt-4 grid grid-cols-3 gap-3">
+                  <div className="h-16 rounded-lg bg-gray-50 grid place-items-center text-xs text-gray-400">
+                    Badge 1
+                  </div>
+                  <div className="h-16 rounded-lg bg-gray-50 grid place-items-center text-xs text-gray-400">
+                    Badge 2
+                  </div>
+                  <div className="h-16 rounded-lg bg-gray-50 grid place-items-center text-xs text-gray-400">
+                    Badge 3
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Features */}
+      <section id="features" className="py-20 sm:py-24">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="max-w-2xl">
+            <h2 className="text-3xl font-bold text-gray-900">
+              Built for scale and security
+            </h2>
+            <p className="mt-3 text-gray-600">
+              Powerful features for enterprise delivery teams with governance,
+              observability, and performance baked-in.
+            </p>
+          </div>
+          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {[
+              {
+                title: "Pipeline as Code",
+                desc: "Declarative pipelines, reusable templates, and versioned workflows.",
+                icon: "⚙️",
+              },
+              {
+                title: "Policy & Compliance",
+                desc: "Role-based access, signed artifacts, and audit trails.",
+                icon: "🛡️",
+              },
+              {
+                title: "Scalable Runners",
+                desc: "Autoscaling runners across cloud and on-prem with throttling and quotas.",
+                icon: "📈",
+              },
+              {
+                title: "Observability",
+                desc: "Pipeline insights, DORA metrics, and bottleneck detection.",
+                icon: "📊",
+              },
+              {
+                title: "Secrets Management",
+                desc: "Integrated vaulting with fine-grained scope and rotation support.",
+                icon: "🔐",
+              },
+              {
+                title: "Monorepo Support",
+                desc: "Smart change detection and parallelized build matrices.",
+                icon: "🧩",
+              },
+            ].map((f) => (
+              <div
+                key={f.title}
+                className="rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-100 hover:shadow-md transition-shadow"
+              >
+                <div className="h-10 w-10 rounded-lg bg-blue-50 text-blue-600 grid place-items-center text-lg">
+                  {f.icon}
+                </div>
+                <h3 className="mt-4 text-lg font-semibold text-gray-900">
+                  {f.title}
+                </h3>
+                <p className="mt-2 text-sm text-gray-600">{f.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Integrations */}
+      <section
+        id="integrations"
+        className="py-20 sm:py-24 bg-gradient-to-b from-gray-50 to-white"
       >
-        <path
-          d="M4.561 12.749L3.15503 14.1549M3.00811 8.99944H1.01978M3.15503 3.84489L4.561 5.2508M8.3107 1.70923L8.3107 3.69749M13.4655 3.84489L12.0595 5.2508M18.1868 17.0974L16.635 18.6491C16.4636 18.8205 16.1858 18.8205 16.0144 18.6491L13.568 16.2028C13.383 16.0178 13.0784 16.0347 12.915 16.239L11.2697 18.2956C11.047 18.5739 10.6029 18.4847 10.505 18.142L7.85215 8.85711C7.75756 8.52603 8.06365 8.21994 8.39472 8.31453L17.6796 10.9673C18.0223 11.0653 18.1115 11.5094 17.8332 11.7321L15.7766 13.3773C15.5723 13.5408 15.5554 13.8454 15.7404 14.0304L18.1868 16.4767C18.3582 16.6481 18.3582 16.926 18.1868 17.0974Z"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    ),
-  },
-  {
-    href: "https://remix.run/docs",
-    text: "Remix Docs",
-    icon: (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="20"
-        viewBox="0 0 20 20"
-        fill="none"
-        className="stroke-gray-600 group-hover:stroke-current dark:stroke-gray-300"
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="max-w-2xl">
+            <h2 className="text-3xl font-bold text-gray-900">Integrations</h2>
+            <p className="mt-3 text-gray-600">
+              Connect OmniCI with your favorite tools. Placeholder logos below.
+            </p>
+          </div>
+          <div className="mt-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+            {Array.from({ length: 12 }).map((_, i) => (
+              <div
+                key={i}
+                className="h-16 rounded-lg bg-white shadow-sm ring-1 ring-gray-100 grid place-items-center text-xs text-gray-400"
+              >
+                Logo {i + 1}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Case Studies */}
+      <section id="case-studies" className="py-20 sm:py-24">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="max-w-2xl">
+            <h2 className="text-3xl font-bold text-gray-900">Case studies</h2>
+            <p className="mt-3 text-gray-600">
+              Real results from real teams. Replace with your customer stories.
+            </p>
+          </div>
+          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {Array.from({ length: 3 }).map((_, i) => (
+              <article
+                key={i}
+                className="rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-100 hover:shadow-md transition-shadow"
+              >
+                <div className="aspect-video rounded-lg bg-gray-50 grid place-items-center text-xs text-gray-400">
+                  Case Study Image {i + 1}
+                </div>
+                <h3 className="mt-4 text-lg font-semibold text-gray-900">
+                  Acme Corp — 35% faster deployments
+                </h3>
+                <p className="mt-2 text-sm text-gray-600">
+                  Replaced legacy pipelines with OmniCI to reduce cycle time and
+                  improve release reliability.
+                </p>
+                <a
+                  href="#case-studies"
+                  className="mt-3 inline-flex items-center text-sm font-semibold text-blue-600 hover:text-blue-700"
+                >
+                  Read story
+                  <svg
+                    className="ml-1 h-4 w-4"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                  >
+                    <path
+                      d="M7 5l6 5-6 5"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </a>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section
+        id="testimonials"
+        className="py-20 sm:py-24 bg-gradient-to-b from-white to-gray-50"
       >
-        <path
-          d="M9.99981 10.0751V9.99992M17.4688 17.4688C15.889 19.0485 11.2645 16.9853 7.13958 12.8604C3.01467 8.73546 0.951405 4.11091 2.53116 2.53116C4.11091 0.951405 8.73546 3.01467 12.8604 7.13958C16.9853 11.2645 19.0485 15.889 17.4688 17.4688ZM2.53132 17.4688C0.951566 15.8891 3.01483 11.2645 7.13974 7.13963C11.2647 3.01471 15.8892 0.951453 17.469 2.53121C19.0487 4.11096 16.9854 8.73551 12.8605 12.8604C8.73562 16.9853 4.11107 19.0486 2.53132 17.4688Z"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-        />
-      </svg>
-    ),
-  },
-  {
-    href: "https://rmx.as/discord",
-    text: "Join Discord",
-    icon: (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="20"
-        viewBox="0 0 24 20"
-        fill="none"
-        className="stroke-gray-600 group-hover:stroke-current dark:stroke-gray-300"
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="max-w-2xl">
+            <h2 className="text-3xl font-bold text-gray-900">Loved by teams</h2>
+            <p className="mt-3 text-gray-600">
+              Rotating testimonial slider placeholder with 3 sample quotes.
+            </p>
+          </div>
+
+          <div className="mt-10 grid gap-6 sm:grid-cols-3">
+            {[
+              {
+                name: "Priya Sharma",
+                role: "Director of Engineering, Northwind",
+                quote:
+                  "OmniCI standardized our pipelines across 120+ services. Our weekly deploys tripled.",
+              },
+              {
+                name: "Miguel Rodriguez",
+                role: "DevOps Lead, Contoso",
+                quote:
+                  "The policy controls and auditability satisfied our security team on day one.",
+              },
+              {
+                name: "Sarah Chen",
+                role: "VP Platform, Fabrikam",
+                quote:
+                  "Integrations were painless. We had end-to-end delivery metrics in a week.",
+              },
+            ].map((t) => (
+              <figure
+                key={t.name}
+                className="rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-100"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="h-10 w-10 rounded-full bg-amber-400/30 grid place-items-center text-sm font-bold text-amber-700">
+                    {t.name.split(" ").map((s) => s[0]).join("")}
+                  </div>
+                  <figcaption>
+                    <div className="text-sm font-semibold text-gray-900">
+                      {t.name}
+                    </div>
+                    <div className="text-xs text-gray-500">{t.role}</div>
+                  </figcaption>
+                </div>
+                <blockquote className="mt-4 text-sm text-gray-700">
+                  “{t.quote}”
+                </blockquote>
+              </figure>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing */}
+      <section id="pricing" className="py-20 sm:py-24">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-2xl mx-auto">
+            <h2 className="text-3xl font-bold text-gray-900">Pricing</h2>
+            <p className="mt-3 text-gray-600">
+              Transparent plans with enterprise options. Replace with real
+              pricing tiers.
+            </p>
+          </div>
+
+          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {[
+              {
+                name: "Starter",
+                price: "$29",
+                desc: "For small teams getting started",
+                features: ["100 monthly builds", "Community support", "1 runner"],
+              },
+              {
+                name: "Growth",
+                price: "$199",
+                desc: "For teams scaling delivery",
+                features: [
+                  "5,000 monthly builds",
+                  "Email support",
+                  "Autoscaling runners",
+                ],
+                highlight: true,
+              },
+              {
+                name: "Enterprise",
+                price: "Custom",
+                desc: "For large orgs & compliance",
+                features: [
+                  "Unlimited builds",
+                  "SLA & SSO/SAML",
+                  "Dedicated support",
+                ],
+              },
+            ].map((p) => (
+              <div
+                key={p.name}
+                className={`rounded-2xl p-6 shadow-sm ring-1 ring-gray-100 bg-white flex flex-col ${
+                  p.highlight ? "border-2 border-blue-600" : ""
+                }`}
+              >
+                <div className="text-sm font-semibold text-blue-600">
+                  {p.name}
+                </div>
+                <div className="mt-2 text-3xl font-bold text-gray-900">
+                  {p.price}
+                  <span className="text-base font-normal text-gray-500">
+                    {p.price !== "Custom" ? "/mo" : ""}
+                  </span>
+                </div>
+                <p className="mt-2 text-sm text-gray-600">{p.desc}</p>
+                <ul className="mt-4 space-y-2 text-sm text-gray-700">
+                  {p.features.map((f) => (
+                    <li key={f} className="flex items-start gap-2">
+                      <span className="mt-1 h-2 w-2 rounded-full bg-amber-500" />
+                      <span>{f}</span>
+                    </li>
+                  ))}
+                </ul>
+                <a
+                  href="#cta"
+                  className={`mt-6 inline-flex justify-center rounded-lg px-4 py-2 text-sm font-semibold shadow-sm transition-colors ${
+                    p.highlight
+                      ? "bg-blue-600 text-white hover:bg-blue-700"
+                      : "bg-gray-900 text-white hover:bg-gray-800"
+                  }`}
+                >
+                  Choose {p.name}
+                </a>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section
+        id="cta"
+        className="py-16 sm:py-20 bg-gradient-to-br from-blue-500/10 to-gray-50"
       >
-        <path
-          d="M15.0686 1.25995L14.5477 1.17423L14.2913 1.63578C14.1754 1.84439 14.0545 2.08275 13.9422 2.31963C12.6461 2.16488 11.3406 2.16505 10.0445 2.32014C9.92822 2.08178 9.80478 1.84975 9.67412 1.62413L9.41449 1.17584L8.90333 1.25995C7.33547 1.51794 5.80717 1.99419 4.37748 2.66939L4.19 2.75793L4.07461 2.93019C1.23864 7.16437 0.46302 11.3053 0.838165 15.3924L0.868838 15.7266L1.13844 15.9264C2.81818 17.1714 4.68053 18.1233 6.68582 18.719L7.18892 18.8684L7.50166 18.4469C7.96179 17.8268 8.36504 17.1824 8.709 16.4944L8.71099 16.4904C10.8645 17.0471 13.128 17.0485 15.2821 16.4947C15.6261 17.1826 16.0293 17.8269 16.4892 18.4469L16.805 18.8725L17.3116 18.717C19.3056 18.105 21.1876 17.1751 22.8559 15.9238L23.1224 15.724L23.1528 15.3923C23.5873 10.6524 22.3579 6.53306 19.8947 2.90714L19.7759 2.73227L19.5833 2.64518C18.1437 1.99439 16.6386 1.51826 15.0686 1.25995ZM16.6074 10.7755L16.6074 10.7756C16.5934 11.6409 16.0212 12.1444 15.4783 12.1444C14.9297 12.1444 14.3493 11.6173 14.3493 10.7877C14.3493 9.94885 14.9378 9.41192 15.4783 9.41192C16.0471 9.41192 16.6209 9.93851 16.6074 10.7755ZM8.49373 12.1444C7.94513 12.1444 7.36471 11.6173 7.36471 10.7877C7.36471 9.94885 7.95323 9.41192 8.49373 9.41192C9.06038 9.41192 9.63892 9.93712 9.6417 10.7815C9.62517 11.6239 9.05462 12.1444 8.49373 12.1444Z"
-          strokeWidth="1.5"
-        />
-      </svg>
-    ),
-  },
-];
+        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+          <div className="rounded-2xl bg-white shadow-xl ring-1 ring-gray-100 p-8 sm:p-10 grid gap-8 sm:grid-cols-3 items-center">
+            <div className="sm:col-span-2">
+              <h3 className="text-2xl font-bold text-gray-900">
+                Start building with OmniCI
+              </h3>
+              <p className="mt-2 text-gray-600">
+                Create a workspace in minutes. No credit card required.
+              </p>
+            </div>
+            <div className="flex gap-3">
+              <a
+                href="#contact"
+                className="rounded-lg bg-white px-4 py-3 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-gray-200 hover:bg-gray-50"
+              >
+                Contact sales
+              </a>
+              <a
+                href="#contact"
+                className="rounded-lg bg-blue-600 px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-blue-700"
+              >
+                Start free
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact */}
+      <section id="contact" className="py-20 sm:py-24">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid gap-10 lg:grid-cols-2">
+            <div>
+              <h2 className="text-3xl font-bold text-gray-900">
+                Contact our team
+              </h2>
+              <p className="mt-3 text-gray-600">
+                Have questions about pricing, security, or deployment models?
+                We’re here to help.
+              </p>
+              <div className="mt-6 space-y-4 text-sm text-gray-700">
+                <div className="flex items-center gap-3">
+                  <span className="h-2 w-2 rounded-full bg-blue-600" />
+                  Enterprise-ready SOC2, ISO27001, and SSO/SAML
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="h-2 w-2 rounded-full bg-amber-500" />
+                  Hybrid cloud & on-prem deployments supported
+                </div>
+              </div>
+            </div>
+            <form
+              className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-100"
+              onSubmit={(e) => e.preventDefault()}
+            >
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">
+                    First name
+                  </label>
+                  <input
+                    id="firstName"
+                    name="firstName"
+                    type="text"
+                    placeholder="Jane"
+                    className="mt-1 w-full rounded-lg border-gray-200 focus:border-blue-500 focus:ring-blue-500"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">
+                    Last name
+                  </label>
+                  <input
+                    id="lastName"
+                    name="lastName"
+                    type="text"
+                    placeholder="Doe"
+                    className="mt-1 w-full rounded-lg border-gray-200 focus:border-blue-500 focus:ring-blue-500"
+                  />
+                </div>
+                <div className="sm:col-span-2">
+                  <label htmlFor="workEmail" className="block text-sm font-medium text-gray-700">
+                    Work email
+                  </label>
+                  <input
+                    id="workEmail"
+                    name="workEmail"
+                    type="email"
+                    placeholder="jane@company.com"
+                    className="mt-1 w-full rounded-lg border-gray-200 focus:border-blue-500 focus:ring-blue-500"
+                  />
+                </div>
+                <div className="sm:col-span-2">
+                  <label htmlFor="message" className="block text-sm font-medium text-gray-700">
+                    Message
+                  </label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    placeholder="Tell us about your needs…"
+                    rows={4}
+                    className="mt-1 w-full rounded-lg border-gray-200 focus:border-blue-500 focus:ring-blue-500"
+                  />
+                </div>
+              </div>
+              <button
+                type="submit"
+                className="mt-4 w-full rounded-lg bg-blue-600 px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-blue-700"
+              >
+                Send message
+              </button>
+              <p className="mt-3 text-xs text-gray-500">
+                Placeholder form. Wire up to your backend or provider later.
+              </p>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="border-t border-gray-100 bg-white">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+            <div>
+              <div className="flex items-center gap-2">
+                <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-bold shadow-sm">
+                  O
+                </div>
+                <span className="font-semibold text-gray-900">OmniCI</span>
+              </div>
+              <p className="mt-3 text-sm text-gray-600">
+                Enterprise CI/CD platform to build, test, and deploy with
+                confidence.
+              </p>
+            </div>
+            <div>
+              <div className="text-sm font-semibold text-gray-900">Product</div>
+              <ul className="mt-3 space-y-2 text-sm text-gray-600">
+                <li>
+                  <a href="#features" className="hover:text-blue-600">
+                    Features
+                  </a>
+                </li>
+                <li>
+                  <a href="#integrations" className="hover:text-blue-600">
+                    Integrations
+                  </a>
+                </li>
+                <li>
+                  <a href="#pricing" className="hover:text-blue-600">
+                    Pricing
+                  </a>
+                </li>
+                <li>
+                  <a href="#case-studies" className="hover:text-blue-600">
+                    Case studies
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <div className="text-sm font-semibold text-gray-900">Company</div>
+              <ul className="mt-3 space-y-2 text-sm text-gray-600">
+                <li>
+                  <a href="#contact" className="hover:text-blue-600">
+                    Contact
+                  </a>
+                </li>
+                <li>
+                  <a href="#contact" className="hover:text-blue-600">
+                    Careers
+                  </a>
+                </li>
+                <li>
+                  <a href="#contact" className="hover:text-blue-600">
+                    Press
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <div className="text-sm font-semibold text-gray-900">Legal</div>
+              <ul className="mt-3 space-y-2 text-sm text-gray-600">
+                <li>
+                  <a href="#hero" className="hover:text-blue-600">
+                    Terms
+                  </a>
+                </li>
+                <li>
+                  <a href="#hero" className="hover:text-blue-600">
+                    Privacy
+                  </a>
+                </li>
+                <li>
+                  <a href="#hero" className="hover:text-blue-600">
+                    Security
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p className="text-xs text-gray-500">
+              © {new Date().getFullYear()} OmniCI, Inc. All rights reserved.
+            </p>
+            <div className="flex items-center gap-3">
+              <a href="#contact" className="text-xs text-gray-500 hover:text-blue-600">
+                Contact
+              </a>
+              <span className="text-gray-200">|</span>
+              <a href="#hero" className="text-xs text-gray-500 hover:text-blue-600">
+                Status
+              </a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
