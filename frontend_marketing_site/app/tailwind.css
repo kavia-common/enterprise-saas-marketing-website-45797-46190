@@ -17,9 +17,19 @@ html, body {
   @apply bg-[var(--bg-app)] text-[var(--text-base)];
 }
 
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
 /* Smooth transitions for interactive elements */
 a, button, input, textarea {
   @apply transition-colors duration-200;
+}
+
+/* Focus ring default */
+:focus-visible {
+  @apply outline-none ring-2 ring-blue-500 rounded;
 }
 
 /* Card component utility following minimalist, rounded, subtle shadow */
